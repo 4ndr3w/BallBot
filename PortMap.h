@@ -1,0 +1,21 @@
+#ifndef PORTMAP_H
+#define PORTMAP_H
+
+#define LEFT_DRIVE_PWM 1
+#define RIGHT_DRIVE_PWM 2
+#define INTAKE_PWM 3
+#define SHOOTER_PWM 4
+
+#define LEFT_ENCODER_A_DIGITAL 4
+#define LEFT_ENCODER_B_DIGITAL 5
+
+#define RIGHT_ENCODER_A_DIGITAL 6
+#define RIGHT_ENCODER_B_DIGITAL 7
+
+#define SHOOTER_ENCODER_A 2
+#define SHOOTER_ENCODER_B 3
+#define SHOOTER_ENCODER_CPR 64.0
+
+#define BALL_SENSOR 1 // Digital
+
+#endif
