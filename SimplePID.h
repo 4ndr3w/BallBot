@@ -32,6 +32,8 @@ class SimplePID {
     void setSetpoint(double setpoint);
     void reset(double initialPosition);
 
+    double getErrSum();
+
 
 };
 

@@ -14,6 +14,11 @@ bool Intake::hasBall()
   return ballSensor->Get();
 }
 
+Intake::IntakeState Intake::getState()
+{
+  return state;
+}
+
 void Intake::setState(IntakeState newState)
 {
   lock();
@@ -35,7 +40,7 @@ void Intake::update()
 
     case WANT:
     {
-      if ( ballSensor->Get() )
+      if ( !ballSensor->Get() )
       {
         roller->Set(0);
         state = HAS;

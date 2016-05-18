@@ -4,8 +4,9 @@
 #include "Talon.h"
 #include "Encoder.h"
 #include "../SimplePID.h"
+#include "TaskSubsystem.h"
 
-class Shooter {
+class Shooter : public TaskSubsystem {
   Talon *motor;
   Encoder *sensor;
 
@@ -17,8 +18,10 @@ class Shooter {
 
     void setRaw(double speed);
     void setRate(double speed);
+    SimplePID *getPID();
     double getRate();
-    double getRevs();
+
+    void update();
 };
 
 #endif

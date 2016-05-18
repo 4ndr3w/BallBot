@@ -5,13 +5,19 @@
 #include "Encoder.h"
 
 class Drivetrain {
+public:
+  enum DriveMode { RAW, PID_DISTANCE, PID_ANGLE, PROFILE };
+private:
   Talon *left;
   Talon *right;
 
   Encoder *leftEncoder;
   Encoder *rightEncoder;
 
+  DriveMode mode;
+
   public:
+
     Drivetrain();
     ~Drivetrain();
 

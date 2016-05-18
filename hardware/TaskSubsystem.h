@@ -3,13 +3,13 @@
 
 #include "semLib.h"
 
-class Subsystem {
+class TaskSubsystem {
   int taskId;
   SEM_ID mutex;
 protected:
   void startUpdateTask(char* description);
 public:
-  Subsystem();
+  TaskSubsystem();
   void lock();
   void unlock();
   virtual void update() = 0;

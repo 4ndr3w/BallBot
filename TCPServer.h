@@ -2,6 +2,16 @@
 #define TCP_Server_h
 
 class TCPServer {
+
+	struct ClientNode {
+		ClientNode *prev;
+		int socket;
+		ClientNode *next;
+	};
+
+	ClientNode *firstClient;
+	ClientNode *lastClient;
+	
 	int port;
 	int taskId;
 public:

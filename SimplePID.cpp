@@ -19,6 +19,10 @@ double SimplePID::getError() {
   return error;
 }
 
+double SimplePID::getErrSum() {
+  return errSum;
+}
+
 bool SimplePID::isStable(double allowed) {
   return fabs(error) < allowed;
 }

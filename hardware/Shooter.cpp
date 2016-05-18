@@ -8,7 +8,10 @@ Shooter::Shooter() {
   sensor->Start();
   motor->Set(0);
 
-  pid = new SimplePID(0, 0, 0, 0);
+  pid = new SimplePID(0.04, 0.01, 0, 0.01029411);
+  pid->setSetpoint(0);
+
+  startUpdateTask("Shooter");
 }
 
 void Shooter::setRaw(double raw) {
@@ -16,14 +19,23 @@ void Shooter::setRaw(double raw) {
 }
 
 void Shooter::setRate(double setpoint) {
-
+  lock();
+  pid->setSetpoint(setpoint);
+  unlock();
 }
 
 double Shooter::getRate() {
   return sensor->GetRate();
 }
 
-double Shooter::getRevs()
-{
-  return sensor->GetDistance();
+SimplePID* Shooter::getPID() {
+  return pid;
+}
+
+void Shooter::update() {
+  double result = pid->calculate(getRate());
+  if ( result < 0 )
+    result = 0;
+//  printf("output %2.4f\n", result);
+  motor->Set(-result);
 }

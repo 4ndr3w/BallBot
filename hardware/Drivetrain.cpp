@@ -13,6 +13,8 @@ Drivetrain::Drivetrain() {
 
   left->Set(0);
   right->Set(0);
+
+  //startUpdateTask("Drivetrain");
 }
 
 Drivetrain::~Drivetrain() {
