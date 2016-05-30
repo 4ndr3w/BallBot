@@ -4,6 +4,7 @@
 #include "Drivetrain.h"
 #include "Shooter.h"
 #include "Intake.h"
+#include "BNO055.h"
 
 class Robot {
   public:
@@ -12,6 +13,7 @@ class Robot {
     Drivetrain *drivetrain;
     Shooter *shooter;
     Intake *intake;
+    BNO055 *gyro;
 };
 
 extern Robot* robot;

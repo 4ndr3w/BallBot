@@ -8,11 +8,6 @@ void spawnTCPServerHandler(void *ptr) {
   ((TCPServer*)ptr)->spawnServer();
 }
 
-void spawnClientHandler(void *ptr, int socket, void *listElement)
-{
-  ((TCPServer*)ptr)->handleClient(socket);
-}
-
 TCPServer::TCPServer(int port) {
   this->port = port;
   taskId = taskSpawn("TCPServerTask", 101, VX_FP_TASK, 2048, (FUNCPTR)spawnTCPServerHandler, (int)this,0,0,0,0,0,0,0,0,0);
@@ -20,7 +15,6 @@ TCPServer::TCPServer(int port) {
 
 TCPServer::~TCPServer() {
   taskDelete(taskId);
-  root = NULL;
 }
 
 void TCPServer::spawnServer() {
@@ -48,18 +42,7 @@ void TCPServer::spawnServer() {
     int client = accept(sock, (sockaddr*)&src, &sockaddr_len);
 
     if ( client != ERROR ) {
-      ClientNode *thisClient = (ClientNode*)malloc(sizeof(ClientNode));
-      thisClient->socket = client;
-      if ( root == NULL )
-        root = lastClient = thisClient;
-      else
-      {
-        lastClient->next = thisClient;
-        thisClient->prev = lastClient;
-        lastClient = thisClient;
-      }
-
-      taskSpawn("TCPClientHandler", 101, VX_FP_TASK, 2048, (FUNCPTR)spawnClientHandler, (int)this,client,(int)thisClient,0,0,0,0,0,0,0);
+      handleClient(client);
     }
   }
 }

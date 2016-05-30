@@ -28,12 +28,18 @@ double Shooter::getRate() {
   return sensor->GetRate();
 }
 
+void Shooter::getPIDSnapshot(SimplePID::PIDSnapshot *copy) {
+  lock();
+  memcpy(copy, &snapshot, sizeof(SimplePID::PIDSnapshot));
+  unlock();
+}
+
 SimplePID* Shooter::getPID() {
   return pid;
 }
 
 void Shooter::update() {
-  double result = pid->calculate(getRate());
+  double result = pid->calculate(getRate(), &snapshot);
   if ( result < 0 )
     result = 0;
 //  printf("output %2.4f\n", result);

@@ -3,15 +3,6 @@
 
 #include "stdint.h"
 
-struct PIDSnapshot {
-  uint32_t error;
-  uint32_t setpoint;
-  uint32_t p;
-  uint32_t i;
-  uint32_t d;
-  uint32_t f;
-};
-
 class SimplePID {
   double kP, kI, kD, kF;
   double setpoint;
@@ -25,11 +16,25 @@ class SimplePID {
   double minOut, maxOut;
 
   public:
+      struct PIDSnapshot {
+        float error;
+        float setpoint;
+        float input;
+
+        float p;
+        float i;
+        float d;
+        float f;
+
+        float out;
+      };
+
     SimplePID(double kP, double kI, double kD, double kF);
-    double calculate(double input);
+    double calculate(double input, PIDSnapshot *snapshot);
     double getError();
     bool isStable(double allowed);
     void setSetpoint(double setpoint);
+    double getSetpoint();
     void reset(double initialPosition);
 
     double getErrSum();

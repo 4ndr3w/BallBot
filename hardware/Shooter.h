@@ -11,6 +11,7 @@ class Shooter : public TaskSubsystem {
   Encoder *sensor;
 
   SimplePID *pid;
+  SimplePID::PIDSnapshot snapshot;
 
   public:
     Shooter();
@@ -20,6 +21,7 @@ class Shooter : public TaskSubsystem {
     void setRate(double speed);
     SimplePID *getPID();
     double getRate();
+    void getPIDSnapshot(SimplePID::PIDSnapshot *copy);
 
     void update();
 };

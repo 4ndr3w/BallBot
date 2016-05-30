@@ -15,6 +15,10 @@ void SimplePID::setSetpoint(double setpoint) {
   this->setpoint = setpoint;
 }
 
+double SimplePID::getSetpoint() {
+  return setpoint;
+}
+
 double SimplePID::getError() {
   return error;
 }
@@ -33,7 +37,7 @@ void SimplePID::reset(double initialPosition) {
   errSum = 0;
 }
 
-double SimplePID::calculate(double input) {
+double SimplePID::calculate(double input, PIDSnapshot *snapshot) {
   double now = Timer::GetPPCTimestamp();
   double dT = now-lastT;
 
@@ -46,5 +50,27 @@ double SimplePID::calculate(double input) {
   lastT = now;
   prevInput = input;
 
-  return (kP*error) + (kI*errSum) - (kD*(deltaPos/dT)) + (kF * setpoint);
+  double pContrib = kP*error;
+  double iContrib = kI*errSum;
+  double dContrib = kD*(deltaPos/dT);
+  double fContrib = kF*setpoint;
+
+  double out = pContrib + iContrib - dContrib + fContrib;
+
+  if ( snapshot != NULL )
+  {
+    snapshot->error = error;
+    snapshot->setpoint = setpoint;
+    snapshot->input = input;
+
+    snapshot->p = pContrib;
+    snapshot->i = iContrib;
+    snapshot->d = dContrib;
+
+    snapshot->f = fContrib;
+
+    snapshot->out = out;
+  }
+
+  return out;
 }

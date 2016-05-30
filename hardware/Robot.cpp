@@ -4,4 +4,5 @@ Robot::Robot() {
   drivetrain = new Drivetrain();
   shooter = new Shooter();
   intake = new Intake();
+  gyro = new BNO055();
 }
