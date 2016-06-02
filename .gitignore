@@ -1,3 +1,4 @@
+.idea
 PPC603gnu
 Debug
 .project
@@ -5,3 +6,10 @@ Debug
 .wrmakefile
 .ucpp
 Makefile
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Makefile
+cmake_install.cmake
+install_manifest.txt
+CTestTestfile.cmake

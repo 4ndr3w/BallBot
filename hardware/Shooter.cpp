@@ -1,6 +1,6 @@
 #include "Shooter.h"
 #include "../PortMap.h"
-
+#include "strLib.h"
 Shooter::Shooter() {
   motor = new Talon(SHOOTER_PWM);
   sensor = new Encoder(SHOOTER_ENCODER_A, SHOOTER_ENCODER_B, false, Encoder::k1X);

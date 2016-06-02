@@ -4,7 +4,8 @@
 #include "Drivetrain.h"
 #include "Shooter.h"
 #include "Intake.h"
-#include "BNO055.h"
+#include "../datastructure/StateHistoryBuffer.h"
+
 
 class Robot {
   public:
@@ -13,9 +14,7 @@ class Robot {
     Drivetrain *drivetrain;
     Shooter *shooter;
     Intake *intake;
-    BNO055 *gyro;
+    //StateHistoryBuffer *history;
 };
-
-extern Robot* robot;
 
 #endif

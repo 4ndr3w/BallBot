@@ -11,10 +11,12 @@ class SimplePID {
   double lastT;
 
   double errSum;
-  double prevInput;
+  double prevError;
 
   double minOut, maxOut;
 
+  double maxInput;
+  bool continous;
   public:
       struct PIDSnapshot {
         float error;
@@ -32,10 +34,11 @@ class SimplePID {
     SimplePID(double kP, double kI, double kD, double kF);
     double calculate(double input, PIDSnapshot *snapshot);
     double getError();
+    void setContinous(double maxInput);
     bool isStable(double allowed);
     void setSetpoint(double setpoint);
     double getSetpoint();
-    void reset(double initialPosition);
+    void reset();
 
     double getErrSum();
 

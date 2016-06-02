@@ -5,7 +5,8 @@
 Intake::Intake() : state(OFF)
 {
   roller = new Talon(INTAKE_PWM);
-  ballSensor = new DigitalInput(BALL_SENSOR);
+  ballSensor = new Counter(BALL_SENSOR);
+  ballSensor->Start();
   startUpdateTask("Intake");
 }
 
@@ -40,9 +41,10 @@ void Intake::update()
 
     case WANT:
     {
-      if ( !ballSensor->Get() )
+      if ( ballSensor->Get() > 0)
       {
         roller->Set(0);
+        ballSensor->Reset();
         state = HAS;
       }
       else {

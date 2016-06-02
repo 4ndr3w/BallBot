@@ -9,6 +9,7 @@
 
 class BNO055 {
   I2C *i2c;
+  
   typedef enum
 {
   /* Page id register definition */
@@ -229,7 +230,7 @@ typedef enum
 
 public:
     BNO055();
-    void test();
+    double getYaw();
 };
 
 #endif

@@ -7,6 +7,7 @@ struct RobotStateMessage {
   double ts;
   SimplePID::PIDSnapshot shooter;
   int16_t intakeState;
+  double yaw;
 };
 
 #endif

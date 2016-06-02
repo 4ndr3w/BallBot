@@ -3,12 +3,17 @@
 #include "math.h"
 
 SimplePID::SimplePID(double kP, double kI, double kD, double kF) :
-  setpoint(0), error(0), lastT(0), errSum(0), prevInput(0),
-  minOut(-1), maxOut(1) {
+  setpoint(0), error(0), lastT(0), errSum(0), prevError(0),
+  minOut(-1), maxOut(1), maxInput(0), continous(false) {
   this->kP = kP;
   this->kI = kI;
   this->kD = kD;
   this->kF = kF;
+}
+
+void SimplePID::setContinous(double maxInput) {
+  this->continous = true;
+  this->maxInput = maxInput;
 }
 
 void SimplePID::setSetpoint(double setpoint) {
@@ -31,9 +36,9 @@ bool SimplePID::isStable(double allowed) {
   return fabs(error) < allowed;
 }
 
-void SimplePID::reset(double initialPosition) {
+void SimplePID::reset() {
   lastT = Timer::GetPPCTimestamp();
-  prevInput = initialPosition;
+  prevError = 0;
   errSum = 0;
 }
 
@@ -43,19 +48,27 @@ double SimplePID::calculate(double input, PIDSnapshot *snapshot) {
 
   error = setpoint-input;
 
+  if ( continous && fabs(error) > (maxInput/2) )
+	{
+			if ( error > 0 )
+			   error = error - maxInput;
+			else
+			   error = error + maxInput;
+	}
+
   errSum += error*dT;
 
-  double deltaPos = (input-prevInput);
+  double deltaPos = (error-prevError);
 
   lastT = now;
-  prevInput = input;
+  prevError = error;
 
   double pContrib = kP*error;
   double iContrib = kI*errSum;
   double dContrib = kD*(deltaPos/dT);
   double fContrib = kF*setpoint;
 
-  double out = pContrib + iContrib - dContrib + fContrib;
+  double out = pContrib + iContrib + dContrib + fContrib;
 
   if ( snapshot != NULL )
   {
